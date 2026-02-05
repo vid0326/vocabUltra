@@ -262,33 +262,3 @@ Fully responsive UI with mobile-first approach, ensuring seamless experience acr
 4. Create React components in `/client/src/components` or `/client/src/pages`
 5. Update navigation in `Navbar.jsx` and `App.jsx`
 
-## 📝 License
-
-ISC
-
-## 👤 Author
-
-Your Name
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-## 🌐 Deployment
-
-### Frontend
-Deploy to Vercel, Netlify, or similar platforms:
-```bash
-cd client
-npm run build
-```
-
-### Backend
-Deploy to Heroku, Railway, or similar platforms. Make sure to:
-1. Set all environment variables
-2. Configure MongoDB Atlas for production
-3. Update CORS settings for production URL
-
----
-
-**Happy Learning! 📖✨**
