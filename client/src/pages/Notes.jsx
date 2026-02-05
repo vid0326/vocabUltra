@@ -13,7 +13,7 @@ const Notes = () => {
 
     const [selectionMode, setSelectionMode] = useState(false);
     const [selectedIds, setSelectedIds] = useState([]);
-    const [showEditor, setShowEditor] = useState(false); // For mobile toggle
+    const [showEditor, setShowEditor] = useState(false); 
 
     const isMobile = window.innerWidth <= 480;
 
@@ -30,7 +30,7 @@ const Notes = () => {
             const res = await axios.get('http://localhost:5000/api/notes');
             setNotes(res.data);
             if (res.data.length > 0 && !activeNote) {
-                // setActiveNote(res.data[0]); 
+                
             }
         } catch (err) {
             console.error(err);
@@ -50,7 +50,7 @@ const Notes = () => {
             setActiveNote(res.data);
             toast.success('New note created');
 
-            // Exit selection mode if active
+           
             if (selectionMode) {
                 setSelectionMode(false);
                 setSelectedIds([]);
@@ -84,7 +84,7 @@ const Notes = () => {
         }
     };
 
-    // --- Bulk Delete Logic ---
+    
 
     const toggleSelectionMode = () => {
         setSelectionMode(!selectionMode);
@@ -102,9 +102,9 @@ const Notes = () => {
 
     const handleSelectAll = () => {
         if (selectedIds.length === notes.length) {
-            setSelectedIds([]); // Deselect all
+            setSelectedIds([]); 
         } else {
-            setSelectedIds(notes.map(n => n._id)); // Select all
+            setSelectedIds(notes.map(n => n._id)); 
         }
     };
 
@@ -193,7 +193,7 @@ const Notes = () => {
             overflow: 'hidden',
             flexDirection: isMobile ? 'column' : 'row'
         }}>
-            {/* Sidebar List */}
+            
             <div
                 className="glass-panel"
                 style={{
