@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
             return;
         }
 
-        // Add header to all future requests
+        
         setAuthToken(token);
 
         try {
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            setUser(res.data); // Update local user state with new avatar
+            setUser(res.data); 
             toast.success('Avatar updated successfully');
             return true;
         } catch (err) {
