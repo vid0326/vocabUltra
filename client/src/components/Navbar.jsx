@@ -10,8 +10,6 @@ const Navbar = () => {
     const [showProfile, setShowProfile] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const profileRef = useRef(null);
-
-    // Close profile when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -21,8 +19,6 @@ const Navbar = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
-    // Close mobile menu when route changes
     useEffect(() => {
         setMobileMenuOpen(false);
     }, [location.pathname]);
@@ -60,8 +56,6 @@ const Navbar = () => {
                         margin: 0
                     }}>VocabUltra</h1>
                 </div>
-
-                {/* Desktop Navigation */}
                 <div className="desktop-only links" style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                     {navLinks.map(link => (
                         <NavLink key={link.to} to={link.to} icon={link.icon} text={link.text} active={isActive(link.to)} />
@@ -124,9 +118,7 @@ const Navbar = () => {
                             Login
                         </Link>
                     )}
-                </div>
-
-                {/* Mobile Hamburger Button */}
+                </div>}
                 <button
                     className="mobile-only"
                     onClick={toggleMobileMenu}
@@ -147,8 +139,6 @@ const Navbar = () => {
                     <FaBars />
                 </button>
             </nav>
-
-            {/* Mobile Menu Backdrop */}
             {mobileMenuOpen && (
                 <div
                     onClick={toggleMobileMenu}
@@ -164,8 +154,6 @@ const Navbar = () => {
                     }}
                 />
             )}
-
-            {/* Mobile Slide-out Menu */}
             <div style={{
                 position: 'fixed',
                 top: 0,
@@ -200,8 +188,6 @@ const Navbar = () => {
                 >
                     <FaTimes />
                 </button>
-
-                {/* User Profile Section */}
                 {user && (
                     <div style={{
                         display: 'flex',
@@ -289,8 +275,6 @@ const Navbar = () => {
                         </Link>
                     ))}
                 </div>
-
-                {/* Login/Logout Button */}
                 {!user ? (
                     <Link
                         to="/login"
