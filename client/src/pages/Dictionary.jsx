@@ -35,7 +35,6 @@ const Dictionary = () => {
     const fetchSuggestions = async (word) => {
         try {
             const res = await axios.get(`https://api.datamuse.com/words?sp=${word}`);
-            // Get top 4 results that are NOT the word itself
             const similar = res.data
                 .map(item => item.word)
                 .filter(w => w.toLowerCase() !== word.toLowerCase())
@@ -49,12 +48,6 @@ const Dictionary = () => {
 
     const handleSuggestionClick = (word) => {
         setTerm(word);
-        // We need to trigger search, but state update is async. 
-        // We can just call a modified search logic or use useEffect, 
-        // but calling search with new term directly is easiest if we refactor slightly
-        // or just cheat by setting term and calling logic.
-        // Let's refactor searchWord to take an optional arg or just act on 'term' state mismatch?
-        // Actually, easiest is to allow searchWord to take an override.
         searchWithTerm(word);
     };
 
