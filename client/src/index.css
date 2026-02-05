@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+:root {
+  --font-main: 'Outfit', sans-serif;
+
+  /* Default (Purple) Theme */
+  --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --primary-accent: #a18cd1;
+  --secondary-accent: #fbc2eb;
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --card-radius: 16px;
+  --btn-gradient: linear-gradient(to right, #a18cd1 0%, #fbc2eb 100%);
+}
+
+/* Black Theme */
+[data-theme='black'] {
+  --bg-gradient: linear-gradient(135deg, #000000, #1a1a1a, #2c2c2c);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  --primary-accent: #808080;
+  --secondary-accent: #ffffff;
+  --text-main: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --btn-gradient: linear-gradient(to right, #434343 0%, #000000 100%);
+}
+
+/* White Theme */
+[data-theme='white'] {
+  --bg-gradient: linear-gradient(135deg, #fdfbfb, #ebedee);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-shadow: 0 8px 32px 0 rgba(100, 100, 111, 0.2);
+  --primary-accent: #5e60ce;
+  --secondary-accent: #48bfe3;
+  --text-main: #000000;
+  --text-muted: #4a4a4a;
+  --btn-gradient: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+}
+
+[data-theme='blue'] {
+  --bg-gradient: linear-gradient(135deg, #000046, #1cb5e0);
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.5);
+  --primary-accent: #00d2ff;
+  --secondary-accent: #3a7bd5;
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.8);
+  --btn-gradient: linear-gradient(to right, #00c6ff 0%, #0072ff 100%);
+}
+
+/* Iron Man Theme */
+[data-theme='iron-man'] {
+  --bg-gradient: linear-gradient(135deg, #8E0E00, #1F1C18);
+  /* Red to dark/goldish black */
+  --glass-bg: rgba(255, 215, 0, 0.05);
+  /* Subtle Gold Tint */
+  --glass-border: rgba(255, 215, 0, 0.3);
+  --glass-shadow: 0 8px 32px 0 rgba(142, 14, 0, 0.4);
+  --primary-accent: #FDB931;
+  /* Gold */
+  --secondary-accent: #BF953F;
+  /* Darker Gold */
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.8);
+  --btn-gradient: linear-gradient(to right, #FDB931 0%, #D4AF37 100%);
+  /* Gold Gradient */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  /* Parallax effect */
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-btn {
+  background: var(--glass-bg);
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.gradient-text {
+  background: var(--btn-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f0c29;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #302b63;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a18cd1;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ========================================
+   RESPONSIVE UTILITIES & MEDIA QUERIES
+   ======================================== */
+
+/* Responsive Spacing Variables */
+:root {
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+}
+
+/* Mobile Breakpoint: 0-480px */
+@media (max-width: 480px) {
+  :root {
+    --spacing-sm: 0.75rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  /* Mobile-optimized glass effects */
+  .glass-panel {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .glass-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Ensure touch-friendly interactions */
+  button,
+  a,
+  input[type="button"],
+  input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Responsive typography */
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Tablet Breakpoint: 481px-768px */
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .glass-panel {
+    padding: 1.25rem;
+  }
+}
+
+/* Desktop Breakpoint: 769px+ */
+@media (min-width: 769px) {
+  .container {
+    padding: 20px;
+  }
+}
+
+/* Responsive Utility Classes */
+/* Mobile-first: show mobile, hide desktop by default */
+.mobile-only {
+  display: block !important;
+}
+
+.tablet-only {
+  display: none !important;
+}
+
+.desktop-only {
+  display: none !important;
+}
+
+/* Tablet: hide mobile, show tablet, hide desktop */
+@media (min-width: 481px) and (max-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+
+  .tablet-only {
+    display: block !important;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Desktop: hide mobile and tablet, show desktop */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+
+  .tablet-only {
+    display: none !important;
+  }
+
+  .desktop-only {
+    display: flex !important;
+    /* Use flex since nav links container uses flex */
+  }
+}
+
+/* Responsive Grid Helpers */
+.responsive-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (max-width: 480px) {
+  .responsive-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Flexbox Helpers */
+.flex-stack-mobile {
+  display: flex;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .flex-stack-mobile {
+    flex-direction: column;
+  }
+}
