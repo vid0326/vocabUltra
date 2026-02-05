@@ -35,7 +35,6 @@ const ProfileCard = ({ onClose }) => {
             alignItems: 'center',
             color: 'var(--text-main)'
         }}>
-            {/* Avatar Section */}
             <div style={{ position: 'relative', marginBottom: '1rem' }}>
                 <div style={{
                     width: '80px',
@@ -53,9 +52,7 @@ const ProfileCard = ({ onClose }) => {
                     ) : (
                         <FaUser size={40} color="var(--text-muted)" />
                     )}
-                </div>
-
-                {/* Camera Icon Overlay */}
+                </div>}
                 <button
                     onClick={() => fileInputRef.current.click()}
                     style={{
@@ -86,12 +83,8 @@ const ProfileCard = ({ onClose }) => {
                     accept="image/*"
                 />
             </div>
-
-            {/* User Info */}
             <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.2rem' }}>{user.username}</h3>
             <p style={{ margin: '0 0 1.5rem 0', color: 'var(--text-muted)', fontSize: '0.9rem' }}>{user.email}</p>
-
-            {/* Sign Out */}
             <button
                 onClick={() => {
                     logout();
