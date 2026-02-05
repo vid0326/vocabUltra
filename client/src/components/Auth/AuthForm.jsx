@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; // Updated import path
+import { useAuth } from '../../context/AuthContext'; 
 import GoogleBtn from './GoogleBtn';
 import { FaUser, FaEnvelope, FaLock, FaSignInAlt, FaUserPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const AuthForm = ({ onSuccess }) => {
-    const [mode, setMode] = useState('login'); // login, register, success, verify-otp, forgot-password, reset-password
+    const [mode, setMode] = useState('login'); 
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: ''
     });
-    const { login, register, verifyEmail, forgotPassword, resetPassword } = useAuth(); // Add new functions
+    const { login, register, verifyEmail, forgotPassword, resetPassword } = useAuth(); 
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,7 +28,7 @@ const AuthForm = ({ onSuccess }) => {
         } else if (mode === 'verify-otp') {
             const success = await verifyEmail(formData.email, formData.otp);
             if (success) {
-                // Auto login after verification
+
                 const loginSuccess = await login(formData.email, formData.password);
                 if (loginSuccess && onSuccess) onSuccess();
                 else setMode('login');
@@ -37,7 +37,7 @@ const AuthForm = ({ onSuccess }) => {
             const success = await forgotPassword(formData.email);
             if (success) setMode('reset-password');
         } else if (mode === 'reset-password') {
-            const success = await resetPassword(formData.email, formData.otp, formData.password); // Using password field for newPassword
+            const success = await resetPassword(formData.email, formData.otp, formData.password);
             if (success) {
                 setMode('login');
                 setFormData({ ...formData, password: '', otp: '' });
@@ -47,8 +47,6 @@ const AuthForm = ({ onSuccess }) => {
 
     return (
         <div className="glass-panel" style={{ padding: '2rem', maxWidth: '400px', width: '100%' }}>
-
-            {/* Header / Tabs - Only show for Login/Register modes */}
             {['login', 'register'].includes(mode) && (
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
                     <button
@@ -83,8 +81,6 @@ const AuthForm = ({ onSuccess }) => {
                     </button>
                 </div>
             )}
-
-            {/* Title for other modes */}
             {!['login', 'register'].includes(mode) && (
                 <h3 style={{ textAlign: 'center', color: 'var(--primary-accent)', marginBottom: '1.5rem' }}>
                     {mode === 'verify-otp' && 'Verify Account'}
@@ -127,8 +123,6 @@ const AuthForm = ({ onSuccess }) => {
                         </button>
                     </>
                 )}
-
-                {/* Common Username Field */}
                 {mode === 'register' && (
                     <div style={{ position: 'relative' }}>
                         <FaUser style={{ position: 'absolute', top: '15px', left: '15px', color: 'var(--text-muted)' }} />
@@ -151,8 +145,6 @@ const AuthForm = ({ onSuccess }) => {
                         />
                     </div>
                 )}
-
-                {/* Common Email Field - Show for Login, Register, Forgot Password */}
                 {['login', 'register', 'forgot-password'].includes(mode) && (
                     <div style={{ position: 'relative' }}>
                         <FaEnvelope style={{ position: 'absolute', top: '15px', left: '15px', color: 'var(--text-muted)' }} />
@@ -175,8 +167,6 @@ const AuthForm = ({ onSuccess }) => {
                         />
                     </div>
                 )}
-
-                {/* Common Password Field - Show for Login, Register, Reset Password */}
                 {['login', 'register', 'reset-password'].includes(mode) && (
                     <div style={{ position: 'relative' }}>
                         <FaLock style={{ position: 'absolute', top: '15px', left: '15px', color: 'var(--text-muted)' }} />
@@ -216,8 +206,6 @@ const AuthForm = ({ onSuccess }) => {
                         </button>
                     </div>
                 )}
-
-                {/* Reset Password OTP Field */}
                 {mode === 'reset-password' && (
                     <div style={{ position: 'relative' }}>
                         <FaLock style={{ position: 'absolute', top: '15px', left: '15px', color: 'var(--text-muted)' }} />
@@ -243,7 +231,6 @@ const AuthForm = ({ onSuccess }) => {
                 )}
 
 
-                {/* Buttons */}
                 {mode === 'login' && (
                     <>
                         <div style={{ textAlign: 'right' }}>
@@ -299,8 +286,6 @@ const AuthForm = ({ onSuccess }) => {
                     </button>
                 )}
             </form>
-
-            {/* Social Login - Only show for Login/Register */}
             {['login', 'register'].includes(mode) && (
                 <>
                     <div style={{ textAlign: 'center', marginTop: '1.5rem', position: 'relative' }}>
