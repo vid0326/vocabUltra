@@ -30,13 +30,13 @@ const Quiz = () => {
     };
 
     const generateQuiz = (wordList) => {
-        // Generate 5 questions or less if not enough words
+        
         const quizLength = Math.min(5, wordList.length);
         const shuffled = [...wordList].sort(() => 0.5 - Math.random());
         const selected = shuffled.slice(0, quizLength);
 
         const generatedQuestions = selected.map(target => {
-            // Pick 3 destructors
+         
             const others = wordList.filter(w => w._id !== target._id);
             const distractors = others.sort(() => 0.5 - Math.random()).slice(0, 3);
 
@@ -57,7 +57,7 @@ const Quiz = () => {
         const isCorrect = selectedId === questions[currentQ].correctId;
         if (isCorrect) setScore(score + 1);
 
-        // Update server
+
         try {
             await axios.post('http://localhost:5000/api/quiz-result', {
                 wordId: questions[currentQ].correctId,
