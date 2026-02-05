@@ -49,8 +49,6 @@ const MyWords = () => {
         }
     };
 
-    // --- Bulk Delete Logic ---
-
     const toggleSelectionMode = () => {
         setSelectionMode(!selectionMode);
         setSelectedIds([]);
@@ -66,9 +64,9 @@ const MyWords = () => {
 
     const handleSelectAll = () => {
         if (selectedIds.length === words.length) {
-            setSelectedIds([]); // Deselect all
+            setSelectedIds([]);
         } else {
-            setSelectedIds(words.map(w => w._id)); // Select all
+            setSelectedIds(words.map(w => w._id)); 
         }
     };
 
