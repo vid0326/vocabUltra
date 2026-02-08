@@ -13,29 +13,31 @@ exports.getWords = async (req, res) => {
 
 exports.addWord = async (req, res) => {
     const { term } = req.body;
+    const normalizedTerm = term.toLowerCase().trim();
 
     try {
-        let existingWord = await Word.findOne({ term: term.toLowerCase().trim(), user: req.user.id });
+        let existingWord = await Word.findOne({ term: normalizedTerm, user: req.user.id });
         if (existingWord) {
             return res.status(400).json({ msg: 'Word already in your collection' });
         }
 
-        // Fetch Meaning
-        const dictRes = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${term}`);
+        // Fetch from APIs in PARALLEL
+        const dictPromise = axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${normalizedTerm}`);
+        const transPromise = axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=hi&dt=t&q=${normalizedTerm}`).catch(() => null);
+
+        const [dictRes, translateRes] = await Promise.all([dictPromise, transPromise]);
+
         const data = dictRes.data[0];
 
         const definition = data.meanings[0]?.definitions[0]?.definition || 'No definition found';
         const example = data.meanings[0]?.definitions[0]?.example || '';
         const pronunciation = data.phonetic || (data.phonetics.length > 0 ? data.phonetics[0].text : '');
 
-        // Fetch Hindi Meaning (Using Google Translate API logic or a placeholder for now as per original code)
-        // Original code used a specific translate URL. Let's replicate or keep it simple.
-        // Assuming original code had a translation logic, but if not, we'll keep it basic.
-        // Wait, I should check the original api.js to see exactly how it was doing translation.
-        // I will use a placeholder or the same logic if I can see it. 
-        // For now, I'll assume the translation part was simple or handled by client, 
-        // but typically it's server side.
-        // Let's check `api.js` content from `view_file` to be sure about translation.
+        // Handle translation result
+        let hindiMeaning = '';
+        if (translateRes && translateRes.data && translateRes.data[0] && translateRes.data[0][0]) {
+            hindiMeaning = translateRes.data[0][0][0];
+        }
 
         const newWord = new Word({
             user: req.user.id,
@@ -43,21 +45,11 @@ exports.addWord = async (req, res) => {
             definition,
             example,
             pronunciation,
-            hindiMeaning: '' // TODO: Add translation logic back if it was there
+            hindiMeaning
         });
 
-        // Try to translate if possible
-        try {
-            const translateRes = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=hi&dt=t&q=${term}`);
-            if (translateRes.data && translateRes.data[0] && translateRes.data[0][0]) {
-                newWord.hindiMeaning = translateRes.data[0][0][0];
-            }
-        } catch (e) {
-            console.error("Translation failed", e.message);
-        }
-
-        const word = await newWord.save();
-        res.json(word);
+        await newWord.save();
+        res.json(newWord);
 
     } catch (err) {
         console.error(err.message);

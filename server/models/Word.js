@@ -52,4 +52,7 @@ const WordSchema = new mongoose.Schema({
 // Ensure a user can only add a specific word once, but multiple users can add the same word
 WordSchema.index({ term: 1, user: 1 }, { unique: true });
 
+// Optimize getWords query
+WordSchema.index({ user: 1, createdAt: -1 });
+
 module.exports = mongoose.model('Word', WordSchema);

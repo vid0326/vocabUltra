@@ -4,6 +4,8 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const BloomFilter = require('./utils/BloomFilter');
 const User = require('./models/User');
+const compression = require('compression');
+const helmet = require('helmet');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,24 +15,33 @@ const bloomFilter = new BloomFilter(10000);
 app.locals.bloomFilter = bloomFilter;
 
 // Middleware
+app.use(helmet()); // Security headers
+app.use(compression()); // Gzip compression
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); // Serve uploaded files
+app.use('/uploads', express.static('uploads', {
+    maxAge: '1d',
+    etag: true
+})); // Serve uploaded files with caching
 
 // Database Connection & Bloom Filter Init
-connectDB().then(async () => {
-    // Populate Bloom Filter after DB connects
-    try {
-        console.log('Initializing Bloom Filter...');
-        const users = await User.find({}, 'email username');
-        users.forEach(user => {
-            if (user.email) bloomFilter.add(user.email);
-            if (user.username) bloomFilter.add(user.username);
-        });
-        console.log(`Bloom Filter initialized with ${users.length} users.`);
-    } catch (err) {
+// Database Connection & Bloom Filter Init
+connectDB().then(() => {
+    // Efficient Bloom Filter Init using Streams
+    console.log('Initializing Bloom Filter...');
+    const stream = User.find({}, 'email username').cursor();
+    let count = 0;
+    stream.on('data', (user) => {
+        if (user.email) bloomFilter.add(user.email);
+        if (user.username) bloomFilter.add(user.username);
+        count++;
+    });
+    stream.on('end', () => {
+        console.log(`Bloom Filter initialized with ${count} users.`);
+    });
+    stream.on('error', (err) => {
         console.error('Error initializing Bloom Filter:', err);
-    }
+    });
 });
 
 // Basic Route
